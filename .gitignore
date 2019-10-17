@@ -1,0 +1,5 @@
+node_modules/
+*.sqlite
+.env
+coverage/
+.nyx_output/
