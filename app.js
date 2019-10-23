@@ -7,11 +7,10 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const index = require('./routes/index');
-const hello = require('./routes/hello');
-const reports = require('./routes/reports');
 const register = require('./routes/register');
 const login = require('./routes/login');
-const chat = require('./routes/chat');
+const trade = require('./routes/trade');
+const profile = require('./routes/profile');
 
 const port = 8333;
 
@@ -29,11 +28,10 @@ if (process.env.NODE_ENV !== 'test') {
 
 
 app.use('/', index);
-app.use('/hello', hello);
-app.use("/reports", reports);
 app.use("/register", register);
 app.use("/login", login);
-app.use("/chat", chat);
+app.use("/trade", trade);
+app.use("/profile", profile);
 
 app.use((req, res, next) => {
     console.log(req.method);

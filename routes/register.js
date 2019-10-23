@@ -10,14 +10,10 @@ router.post('/', (req, res, next) => {
     const saltRounds = 10;
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-        db.run("INSERT INTO users (firstname, lastname, email, password, year, month, day) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            req.body.firstname,
-            req.body.lastname,
+        db.run("INSERT INTO users (username, email, password, balance) VALUES (?, ?, ?, 0)",
+            req.body.username,
             req.body.email,
-            hash,
-            req.body.year,
-            req.body.month,
-            req.body.day, err => {
+            hash, err => {
                 if (err) {
                     res.status(400).json({"error": err.message});
                     return;
