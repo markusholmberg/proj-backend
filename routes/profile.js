@@ -16,6 +16,20 @@ router.get("/:username", function(req, res) {
     })
 })
 
+router.get("/:username/getInv", async function(req, res) {
+    const user = req.params.username;
+    const client  = await mongo.connect(dsn, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = await client.db();
+    const col = await db.collection("userItems").find({ username: { $eq: user }} ).toArray(async function(err, result) {
+        if (err) throw err;
+        res.json({
+            "data": result
+        })
+        await client.close();
+        return result;
+    });
+})
+
 router.post("/:username/update", function(req, res) {
     const user = req.body.username;
     const balance = parseInt(req.body.balance);
