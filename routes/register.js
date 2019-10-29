@@ -31,13 +31,13 @@ router.post("/addItems", async function (req, res) {
     const db = await client.db();
     const col = await db.collection("userItems");
     const result = await col.insertOne({ username: username, allItems: [
-        {name: "Swift Spectral Tiger", quantity: 0},
-        {name: "Magic Rooster", quantity: 0},
-        {name: "Thunderfury", quantity: 0},
-        {name: "Sulfuras", quantity: 0},
-        {name: "Feldrake", quantity: 0},
-        {name: "Tabard of Frost", quantity: 0},
-        {name: "X-51 Nether Rocket X-TREME", quantity: 0},
+        {name: "Swift Spectral Tiger", quantity: 0, img: "tiger.jpg"},
+        {name: "Magic Rooster", quantity: 0, img: "rooster.jpg"},
+        {name: "Thunderfury", quantity: 0, img: "thunderfury.jpg"},
+        {name: "Sulfuras", quantity: 0, img: "sulfuras.jpg"},
+        {name: "Feldrake", quantity: 0, img: "feldrake.jpg"},
+        {name: "Tabard of Frost", quantity: 0, img: "tabard.jpg"},
+        {name: "X-51 Nether Rocket X-TREME", quantity: 0, img: "rocket.jpg"},
     ] },
     async function(err, result) {
         console.log("Value inserted");

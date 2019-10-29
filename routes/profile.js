@@ -60,4 +60,54 @@ router.get("/:username/items", async function(req, res) {
         return result;
     });
 })
+
+router.post("/sellItem", async function(req, res) {
+    const user = req.body.username;
+    const item = req.body.item;
+
+    const client  = await mongo.connect(dsn, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = await client.db();
+    const col = await db.collection("items");
+    await col.updateOne({ name: { $eq: item }}, {$inc: {quantity: 1}});
+    const colTwo = await db.collection("userItems");
+    await colTwo.updateOne({ username: { $eq: user }, "allItems.name": item}, {$inc: {"allItems.$.quantity": -1}} )
+    await client.close();
+    console.log("Item sold")
+})
+
+router.post("/sellItemBalance", function(req, res) {
+    const user = req.body.username;
+    const price = parseInt(req.body.price);
+
+    db.run(`UPDATE users SET balance = balance + ? WHERE username = ?;`, [price, user], (error, rows) => {
+        if (error) {
+            res.status(400).json({"error": error.message});
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows,
+        });
+    })
+})
+
+router.get("/:username/:item", async function(req, res) {
+    const item = req.params.item;
+    const user = req.params.username;
+    console.log(req.params)
+
+    const client  = await mongo.connect(dsn, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = await client.db();
+    const col = await db.collection("userItems");
+    await col.find({"username": user}, {allItems: {$elemMatch: {name:'Sulfuras'}}}, { projection: { name: 1, img: 1, quantity: 1} } ).toArray(async function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json({
+            "data": result
+        })
+        await client.close();
+        return result;
+    });
+    await client.close();
+})
 module.exports = router;
