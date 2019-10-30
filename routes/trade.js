@@ -7,7 +7,7 @@ const dsn = "mongodb://localhost:27017/trade";
 router.get("/", async function(req, res) {
     const client  = await mongo.connect(dsn, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = await client.db();
-    const col = await db.collection("items").find({}, { projection: { _id: 1, name: 1, price: 1, img: 1, quantity: 1} } ).toArray(async function(err, result) {
+    const col = await db.collection("items").find({}, { projection: { _id: 1, name: 1, price: 1, img: 1, quantity: 1, history: 1} } ).toArray(async function(err, result) {
         if (err) throw err;
         console.log(result);
         res.json({

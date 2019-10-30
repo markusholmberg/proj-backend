@@ -64,11 +64,15 @@ router.get("/:username/items", async function(req, res) {
 router.post("/sellItem", async function(req, res) {
     const user = req.body.username;
     const item = req.body.item;
+    const price = req.body.price;
 
     const client  = await mongo.connect(dsn, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = await client.db();
     const col = await db.collection("items");
-    await col.updateOne({ name: { $eq: item }}, {$inc: {quantity: 1}});
+    await col.findOneAndUpdate({ name: { $eq: item }}, {$inc: {quantity: 1}, $mul: {price: 0.93}, $push: {history: price}}, {returnOriginal: false},
+        async function (err, documents) {
+            await res.send({ error: err, affected: documents });
+        });
     const colTwo = await db.collection("userItems");
     await colTwo.updateOne({ username: { $eq: user }, "allItems.name": item}, {$inc: {"allItems.$.quantity": -1}} )
     await client.close();
