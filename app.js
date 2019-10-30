@@ -12,7 +12,7 @@ const login = require('./routes/login');
 const trade = require('./routes/trade');
 const profile = require('./routes/profile');
 
-const port = 8333;
+const port = 8334;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
