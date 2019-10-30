@@ -15,7 +15,8 @@ async function addData() {
         {name: "Sulfuras", quantity: 0, img: "sulfuras.jpg", price: 1000, history: []},
         {name: "Feldrake", quantity: 0, img: "feldrake.jpg", price: 500, history: []},
         {name: "Tabard of Frost", quantity: 0, img: "tabard.jpg", price: 1500, history: []},
-        {name: "X-51 Nether Rocket X-TREME", quantity: 0, img: "rocket.jpg", price: 300, history: []},
+        {name: "X-51 Nether Rocket X-TREME", quantity: 0, img: "rocket.jpg", price: 300, history: []}
+    );
     async function(err, result) {
         console.log("Value inserted");
         console.log(result)
