@@ -14,7 +14,7 @@ router.post('/', (req, res, next) => {
     console.log(req.body);
 
 
-    db.all(`SELECT * FROM users WHERE email = '?'`, [email], (error, rows) => {
+    db.all(`SELECT * FROM users WHERE email = ?`, [email], (error, rows) => {
         const token = jwt.sign(payload, secret, { expiresIn: '1h'});
 
         bcrypt.compare(req.body.password, rows[0].password, function(err, response) {
